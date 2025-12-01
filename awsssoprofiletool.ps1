@@ -96,7 +96,7 @@ if ($Map) {
         $parts = $mapping -split ':', 2
         if ($parts.Count -ne 2 -or [string]::IsNullOrEmpty($parts[0]) -or [string]::IsNullOrEmpty($parts[1])) {
             Write-Error "Error: -Map value must be in FROM:TO format (e.g., 'Infrastructure:Infra')"
-            exit 1
+            return
         }
         $accountMappings[$parts[0]] = $parts[1]
     }
@@ -107,12 +107,12 @@ try {
     $awsVersion = aws --version 2>&1
     if ($awsVersion -match "aws-cli/1") {
         Write-Error "ERROR: This script requires AWS CLI v2 or higher"
-        exit 1
+        return
     }
 }
 catch {
     Write-Error "ERROR: AWS CLI not found. Please install AWS CLI v2."
-    exit 1
+    return
 }
 
 # Overwrite option
@@ -149,7 +149,7 @@ $registerJson = aws sso-oidc register-client --client-name 'profiletool' --clien
 if ($LASTEXITCODE -ne 0) {
     Write-Host "Failed"
     Write-Error "$registerJson"
-    exit 1
+    return
 }
 
 $registerOutput = $registerJson | ConvertFrom-Json
@@ -166,7 +166,7 @@ $authJson = aws sso-oidc start-device-authorization --client-id $clientId --clie
 if ($LASTEXITCODE -ne 0) {
     Write-Host "Failed"
     Write-Error "$authJson"
-    exit 1
+    return
 }
 
 $authOutput = $authJson | ConvertFrom-Json
@@ -190,7 +190,7 @@ $tokenJson = aws sso-oidc create-token --client-id $clientId --client-secret $se
 if ($LASTEXITCODE -ne 0) {
     Write-Host "Failed"
     Write-Error "$tokenJson"
-    exit 1
+    return
 }
 
 $tokenOutput = $tokenJson | ConvertFrom-Json
@@ -234,7 +234,7 @@ $accountsJson = aws sso list-accounts --access-token $token --page-size $ACCOUNT
 if ($LASTEXITCODE -ne 0) {
     Write-Host "Failed"
     Write-Error "$accountsJson"
-    exit 1
+    return
 }
 
 $accountsOutput = $accountsJson | ConvertFrom-Json
@@ -275,7 +275,7 @@ foreach ($account in $accounts) {
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Failed to retrieve roles."
         Write-Error "$rolesJson"
-        exit 1
+        return
     }
 
     $rolesOutput = $rolesJson | ConvertFrom-Json
@@ -410,4 +410,3 @@ foreach ($profile in $createdProfiles) {
 }
 
 Write-Host ""
-exit 0
