@@ -28,17 +28,23 @@ Run the tool directly without downloading:
 
 **Bash (macOS/Linux):**
 ```bash
-curl -fsSL https://raw.githubusercontent.com/frank-bee/aws-sso-profile-tool/main/awsssoprofiletool.sh | bash -s -- <region> <start_url>
+bash <(curl -fsSL https://raw.githubusercontent.com/frank-bee/aws-sso-profile-tool/main/awsssoprofiletool.sh) <region> <start_url>
 ```
 
 Example:
 ```bash
-curl -fsSL https://raw.githubusercontent.com/frank-bee/aws-sso-profile-tool/main/awsssoprofiletool.sh | bash -s -- us-east-1 "https://mycompany.awsapps.com/start"
+bash <(curl -fsSL https://raw.githubusercontent.com/frank-bee/aws-sso-profile-tool/main/awsssoprofiletool.sh) \
+  us-east-1 "https://mycompany.awsapps.com/start"
 ```
 
-With options (non-interactive + default profile):
+With options (non-interactive + default profile + account mappings):
 ```bash
-curl -fsSL https://raw.githubusercontent.com/frank-bee/aws-sso-profile-tool/main/awsssoprofiletool.sh | bash -s -- -y --default "DevAdministratorAccess" us-east-1 "https://mycompany.awsapps.com/start"
+bash <(curl -fsSL https://raw.githubusercontent.com/frank-bee/aws-sso-profile-tool/main/awsssoprofiletool.sh) \
+  -y \
+  --map "Infrastructure:Infra" \
+  --map "Development:Dev" \
+  --default "DevAdministratorAccess" \
+  us-east-1 "https://mycompany.awsapps.com/start"
 ```
 
 **PowerShell (Windows):**
@@ -48,12 +54,19 @@ curl -fsSL https://raw.githubusercontent.com/frank-bee/aws-sso-profile-tool/main
 
 Example:
 ```powershell
-& ([scriptblock]::Create((irm https://raw.githubusercontent.com/frank-bee/aws-sso-profile-tool/main/awsssoprofiletool.ps1))) -Region us-east-1 -StartUrl "https://mycompany.awsapps.com/start"
+& ([scriptblock]::Create((irm https://raw.githubusercontent.com/frank-bee/aws-sso-profile-tool/main/awsssoprofiletool.ps1))) `
+  -Region us-east-1 `
+  -StartUrl "https://mycompany.awsapps.com/start"
 ```
 
-With options (non-interactive + default profile):
+With options (non-interactive + default profile + account mappings):
 ```powershell
-& ([scriptblock]::Create((irm https://raw.githubusercontent.com/frank-bee/aws-sso-profile-tool/main/awsssoprofiletool.ps1))) -Region us-east-1 -StartUrl "https://mycompany.awsapps.com/start" -NoPrompt -Default "DevAdministratorAccess"
+& ([scriptblock]::Create((irm https://raw.githubusercontent.com/frank-bee/aws-sso-profile-tool/main/awsssoprofiletool.ps1))) `
+  -Region us-east-1 `
+  -StartUrl "https://mycompany.awsapps.com/start" `
+  -NoPrompt `
+  -Map "Infrastructure:Infra","Development:Dev" `
+  -Default "DevAdministratorAccess"
 ```
 
 ### Installation
