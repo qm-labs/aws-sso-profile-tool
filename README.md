@@ -22,6 +22,40 @@ command before you can use any AWS SSO profile. However, once you have logged
 in once, you will be able to use any of the created profiles until your
 authorization token expires.
 
+### Quick Start (One-Liner)
+
+Run the tool directly without downloading:
+
+**Bash (macOS/Linux):**
+```bash
+curl -fsSL https://raw.githubusercontent.com/frank-bee/aws-sso-profile-tool/main/awsssoprofiletool.sh | bash -s -- <region> <start_url>
+```
+
+Example:
+```bash
+curl -fsSL https://raw.githubusercontent.com/frank-bee/aws-sso-profile-tool/main/awsssoprofiletool.sh | bash -s -- us-east-1 "https://mycompany.awsapps.com/start"
+```
+
+With options (non-interactive + default profile):
+```bash
+curl -fsSL https://raw.githubusercontent.com/frank-bee/aws-sso-profile-tool/main/awsssoprofiletool.sh | bash -s -- -y --default "DevAdministratorAccess" us-east-1 "https://mycompany.awsapps.com/start"
+```
+
+**PowerShell (Windows):**
+```powershell
+& ([scriptblock]::Create((irm https://raw.githubusercontent.com/frank-bee/aws-sso-profile-tool/main/awsssoprofiletool.ps1))) -Region <region> -StartUrl <start_url>
+```
+
+Example:
+```powershell
+& ([scriptblock]::Create((irm https://raw.githubusercontent.com/frank-bee/aws-sso-profile-tool/main/awsssoprofiletool.ps1))) -Region us-east-1 -StartUrl "https://mycompany.awsapps.com/start"
+```
+
+With options (non-interactive + default profile):
+```powershell
+& ([scriptblock]::Create((irm https://raw.githubusercontent.com/frank-bee/aws-sso-profile-tool/main/awsssoprofiletool.ps1))) -Region us-east-1 -StartUrl "https://mycompany.awsapps.com/start" -NoPrompt -Default "DevAdministratorAccess"
+```
+
 ### Installation
 
 To install the tool, follow these steps:
