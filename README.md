@@ -41,9 +41,9 @@ With options (non-interactive + default profile + account mappings):
 ```bash
 bash <(curl -fsSL https://raw.githubusercontent.com/frank-bee/aws-sso-profile-tool/main/awsssoprofiletool.sh) \
   -y \
-  --map "Infrastructure:Infra" \
+  --map "Production:Prod" \
   --map "Development:Dev" \
-  --default "DevAdministratorAccess" \
+  --default "DevAdminAccess" \
   us-east-1 "https://mycompany.awsapps.com/start"
 ```
 
@@ -65,8 +65,8 @@ With options (non-interactive + default profile + account mappings):
   -Region us-east-1 `
   -StartUrl "https://mycompany.awsapps.com/start" `
   -NoPrompt `
-  -Map "Infrastructure:Infra","Development:Dev" `
-  -Default "DevAdministratorAccess"
+  -Map "Production:Prod","Development:Dev" `
+  -Default "DevAdminAccess"
 ```
 
 ### Installation
@@ -103,21 +103,21 @@ The arguments are as follows:
 **Example with account name mappings:**
 ```bash
 ./awsssoprofiletool.sh -y \
-  --map "Infrastructure:Infra" \
+  --map "Production:Prod" \
   --map "Development:Dev" \
   us-east-1 https://example.awsapps.com/start
 ```
 
-This would create profiles like `InfraAdministratorAccess` instead of `InfrastructureAdministratorAccess`.
+This would create profiles like `ProdAdminAccess` instead of `ProductionAdminAccess`.
 
 **Example with default profile:**
 ```bash
 ./awsssoprofiletool.sh -y \
-  --default "DevAdministratorAccess" \
+  --default "DevAdminAccess" \
   us-east-1 https://example.awsapps.com/start
 ```
 
-This creates all profiles plus a `[default]` section that mirrors `DevAdministratorAccess`, so AWS CLI commands work without specifying `--profile`.
+This creates all profiles plus a `[default]` section that mirrors `DevAdminAccess`, so AWS CLI commands work without specifying `--profile`.
 
 ## Security
 
