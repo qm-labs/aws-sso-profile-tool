@@ -39,16 +39,38 @@ the following methods:
 To run the script, do one of the following:
 
 * If the script is executable, run it with `./awsssoprofiletool.sh
-<region> <start_url> [<profile_file>]`
+[-y] [--map "FROM:TO" ...] [--default <profile>] <region> <start_url> [<profile_file>]`
 * If the script is not executable, run it with  `bash awsssoprofiletool.sh
-<region> <start_url> [<profile_file>]`
+[-y] [--map "FROM:TO" ...] [--default <profile>] <region> <start_url> [<profile_file>]`
 
 The arguments are as follows:
 
-* &lt;region&gt; - the region where AWS SSO is running
-* &lt;start_url&gt; - the start URL from the AWS SSO page
-* &lt;profile_file&gt; - where the profiles will be created; defaults to
+* `-y` - (optional) non-interactive mode; overwrites config and creates all profiles without prompts
+* `--map "FROM:TO"` - (optional) map account name FROM to TO in profile names; can be specified multiple times
+* `--default <profile>` - (optional) create a `[default]` profile that mirrors the specified profile name
+* `<region>` - the region where AWS SSO is running
+* `<start_url>` - the start URL from the AWS SSO page
+* `<profile_file>` - where the profiles will be created; defaults to
 ~/.aws/config
+
+**Example with account name mappings:**
+```bash
+./awsssoprofiletool.sh -y \
+  --map "Infrastructure:Infra" \
+  --map "Development:Dev" \
+  us-east-1 https://example.awsapps.com/start
+```
+
+This would create profiles like `InfraAdministratorAccess` instead of `InfrastructureAdministratorAccess`.
+
+**Example with default profile:**
+```bash
+./awsssoprofiletool.sh -y \
+  --default "DevAdministratorAccess" \
+  us-east-1 https://example.awsapps.com/start
+```
+
+This creates all profiles plus a `[default]` section that mirrors `DevAdministratorAccess`, so AWS CLI commands work without specifying `--profile`.
 
 ## Security
 
