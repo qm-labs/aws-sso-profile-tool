@@ -120,6 +120,12 @@ else
     profilefile=$PROFILEFILE
 fi
 
+# Ensure .aws directory exists
+profiledir=$(dirname "$profilefile")
+if [ ! -d "$profiledir" ]; then
+    mkdir -p "$profiledir"
+fi
+
 # Overwrite option
 if [ "$noprompt" = true ]; then
     overwrite=true
